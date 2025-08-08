@@ -57,7 +57,8 @@ export default async function RootLayout({
       name: 'name' in category ? category.name : '',
       type: category.type,
       query: category.query,
-    })) || ([] as Array<{ name: string; type: 'movie' | 'tv'; query: string }>);
+    })) || ([] as Array<{ name:string; type: 'movie' | 'tv'; query: string }>);
+  let liveTvChannels = (RuntimeConfig as any).live_tv || [];
   if (
     process.env.NEXT_PUBLIC_STORAGE_TYPE !== 'd1' &&
     process.env.NEXT_PUBLIC_STORAGE_TYPE !== 'upstash'
@@ -76,6 +77,7 @@ export default async function RootLayout({
       type: category.type,
       query: category.query,
     }));
+    liveTvChannels = config.live_tv || [];
   }
 
   // 将运行时配置注入到全局 window 对象，供客户端在运行时读取
@@ -86,6 +88,7 @@ export default async function RootLayout({
     DOUBAN_PROXY: doubanProxy,
     DISABLE_YELLOW_FILTER: disableYellowFilter,
     CUSTOM_CATEGORIES: customCategories,
+    LIVE_TV_CHANNELS: liveTvChannels,
   };
 
   return (
